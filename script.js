@@ -27,7 +27,7 @@ button.addEventListener("click", () => {
 //   }
 // }
 
-function createAndAppend(imgURL) {
+function createAndAppend(imgObj) {
   let picContainer = document.createElement("div");
   document.getElementById("container").appendChild(picContainer);
 
@@ -39,10 +39,10 @@ function createAndAppend(imgURL) {
   picContainer.appendChild(upvoteButton);
 
   upvoteButton.addEventListener("click", () => {
-    upvote();
+    upvote(imgObj.id);
   });
 
-  pic.src = imgURL;
+  pic.src = imgObj.url;
 }
 
 async function getImages(val) {
@@ -56,7 +56,7 @@ async function getImages(val) {
     let json = await response.json();
     json = json.slice(0, parseInt(val));
     for (picture of json) {
-      createAndAppend(picture.url);
+      createAndAppend(picture);
     }
     // createAndAppend(json[0].url);
     // let pic = document.createElement("img");
@@ -67,15 +67,15 @@ async function getImages(val) {
   }
 }
 
-async function upvote(obj) {
+async function upvote(num) {
   const response = await fetch(`https://api.thecatapi.com/v1/votes`, {
     method: "POST",
     headers: {
       "x-api-key": api_key,
     },
     body: {
-      image_id: obj.id,
+      image_id: num,
       value: 1,
     },
-  });
+  }).then(alert("Thanks for the vote!"));
 }
