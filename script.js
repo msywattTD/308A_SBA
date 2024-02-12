@@ -1,3 +1,5 @@
+import { upvote } from "./upvote.js";
+
 const url = "https://api.thecatapi.com/v1/images/search";
 const api_key =
   "live_giPVs1sO5rpWpBhFrYIEKGymNemqy6fMJXLJnvd9kMO3tRINAeIVXJvgSBIh8S0f";
@@ -55,7 +57,7 @@ async function getImages(val) {
     });
     let json = await response.json();
     json = json.slice(0, parseInt(val));
-    for (picture of json) {
+    for (let picture of json) {
       createAndAppend(picture);
     }
     // createAndAppend(json[0].url);
@@ -65,17 +67,4 @@ async function getImages(val) {
   } catch (err) {
     console.log(err);
   }
-}
-
-async function upvote(num) {
-  const response = await fetch(`https://api.thecatapi.com/v1/votes`, {
-    method: "POST",
-    headers: {
-      "x-api-key": api_key,
-    },
-    body: {
-      image_id: num,
-      value: 1,
-    },
-  }).then(alert("Thanks for the vote!"));
 }
